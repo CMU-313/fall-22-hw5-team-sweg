@@ -3,7 +3,7 @@ on:
   pull_request:
     branches:
       - "main"
-    tags: [v*]
+    tags: [ v* ]
 jobs:
   eslint:
     name: Run ESLint
@@ -17,4 +17,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
-          eslint_flags: "src/"
+          eslint_flags: "./src"
+          workdir: "./docs-web/src/main/webapp"
