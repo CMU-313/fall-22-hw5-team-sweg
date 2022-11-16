@@ -7,7 +7,7 @@ on:
 jobs:
   eslint:
     name: Run ESLint
-    runs-on: ubutnu-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
