@@ -1,24 +1,24 @@
-'use strict';
+"use strict";
 
 /**
  * Modal import controller.
  */
-angular.module('docs').controller('ModalImport', function ($scope, $uibModalInstance, file, $q, $timeout) {
+angular.module("docs").controller("ModalImport", function($scope, $uibModalInstance, file, $q, $timeout) {
   // Payload
-  var formData = new FormData();
-  formData.append('file', file, file.name);
+  const formData = new FormData();
+  formData.append("file", file, file.name);
 
   // Send the file
-  var deferred = $q.defer();
-  var getProgressListener = function(deferred) {
+  const deferred = $q.defer();
+  const getProgressListener = function(deferred) {
     return function(event) {
       deferred.notify(event);
     };
   };
 
   $.ajax({
-    type: 'PUT',
-    url: '../api/document/eml',
+    type: "PUT",
+    url: "../api/document/eml",
     data: formData,
     cache: false,
     contentType: false,
@@ -30,21 +30,21 @@ angular.module('docs').controller('ModalImport', function ($scope, $uibModalInst
       deferred.reject(jqXHR);
     },
     xhr: function() {
-      var myXhr = $.ajaxSettings.xhr();
+      const myXhr = $.ajaxSettings.xhr();
       myXhr.upload.addEventListener(
-        'progress', getProgressListener(deferred), false);
+          "progress", getProgressListener(deferred), false);
       return myXhr;
-    }
+    },
   });
 
   deferred.promise.then(function(data) {
     $uibModalInstance.close(data);
   }, function(data) {
-    $scope.errorQuota = data.responseJSON && data.responseJSON.type === 'QuotaReached';
+    $scope.errorQuota = data.responseJSON && data.responseJSON.type === "QuotaReached";
     if (!$scope.errorQuota) {
       $scope.errorGeneral = true;
     }
-    $timeout(function () {
+    $timeout(function() {
       $uibModalInstance.close(null);
     }, 3000);
   }, function(e) {

@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * Document controller.
  */
-angular.module('docs').controller('Document', function ($scope, $rootScope, $timeout, $state, Restangular, $q, $filter, $uibModal) {
+angular.module("docs").controller("Document", function($scope, $rootScope, $timeout, $state, Restangular, $q, $filter, $uibModal) {
   /**
    * Scope variables.
    */
@@ -11,90 +11,92 @@ angular.module('docs').controller('Document', function ($scope, $rootScope, $tim
   $scope.asc = false;
   $scope.offset = 0;
   $scope.currentPage = 1;
-  $scope.limit = _.isUndefined(localStorage.documentsPageSize) ? '10' : localStorage.documentsPageSize;
-  $scope.displayMode = _.isUndefined(localStorage.displayMode) ? 'list' : localStorage.displayMode;
-  $scope.search = $state.params.search ? $state.params.search : '';
-  $scope.setSearch = function (search) { $scope.search = search };
+  $scope.limit = _.isUndefined(localStorage.documentsPageSize) ? "10" : localStorage.documentsPageSize;
+  $scope.displayMode = _.isUndefined(localStorage.displayMode) ? "list" : localStorage.displayMode;
+  $scope.search = $state.params.search ? $state.params.search : "";
+  $scope.setSearch = function(search) {
+    $scope.search = search;
+  };
   $scope.searchOpened = false;
-  $scope.searchDropdownAnchor = angular.element(document.querySelector('.search-dropdown-anchor'));
+  $scope.searchDropdownAnchor = angular.element(document.querySelector(".search-dropdown-anchor"));
   $scope.paginationShown = true;
   $scope.advsearch = {};
 
   // A timeout promise is used to slow down search requests to the server
   // We keep track of it for cancellation purpose
-  var timeoutPromise;
-  
+  let timeoutPromise;
+
   /**
    * Load new documents page.
    */
-  $scope.pageDocuments = function () {
-    Restangular.one('document/list')
+  $scope.pageDocuments = function() {
+    Restangular.one("document/list")
         .get({
           offset: $scope.offset,
           limit: $scope.limit,
           sort_column: $scope.sortColumn,
           asc: $scope.asc,
-          search: $scope.search
+          search: $scope.search,
         })
-        .then(function (data) {
+        .then(function(data) {
           $scope.documents = data.documents;
           $scope.totalDocuments = data.total;
           $scope.suggestions = data.suggestions;
         });
   };
-  
+
   /**
    * Reload documents.
    */
-  $scope.loadDocuments = function () {
+  $scope.loadDocuments = function() {
     $scope.offset = 0;
     $scope.currentPage = 1;
     $scope.pageDocuments();
   };
-  
+
   /**
    * Watch for current page change.
    */
-  $scope.$watch('currentPage', function (prev, next) {
+  $scope.$watch("currentPage", function(prev, next) {
     if (prev === next) {
       return;
     }
     $scope.offset = ($scope.currentPage - 1) * parseInt($scope.limit);
     $scope.pageDocuments();
   });
-  
+
   /**
    * Watch for search scope change.
    */
-  $scope.$watch('search', function () {
+  $scope.$watch("search", function() {
     if (timeoutPromise) {
       // Cancel previous timeout
       $timeout.cancel(timeoutPromise);
     }
 
-    if ($state.current.name === 'document.default'
-        || $state.current.name === 'document.default.search') {
-      $state.go($scope.search === '' ?
-          'document.default' : 'document.default.search', {
-        search: $scope.search
+    if ($state.current.name === "document.default" ||
+        $state.current.name === "document.default.search") {
+      $state.go($scope.search === "" ?
+          "document.default" : "document.default.search", {
+        search: $scope.search,
       }, {
-        location: 'replace',
-        notify: false
+        location: "replace",
+        notify: false,
       });
     }
 
     $scope.extractNavigatedTag();
 
     // Call API later
-    timeoutPromise = $timeout(function () {
+    timeoutPromise = $timeout(function() {
       $scope.loadDocuments();
     }, 200);
   }, true);
-  
+
   /**
    * Sort documents.
    */
-  $scope.sortDocuments = function (sortColumn) {
+  $scope.sortDocuments = function(sortColumn) {
     if (sortColumn === $scope.sortColumn) {
       $scope.asc = !$scope.asc;
     } else {
@@ -107,7 +109,7 @@ angular.module('docs').controller('Document', function ($scope, $rootScope, $tim
   /**
    * Watch for page size change.
    */
-  $scope.$watch('limit', function (next, prev) {
+  $scope.$watch("limit", function(next, prev) {
     localStorage.documentsPageSize = next;
     if (next === prev) {
       return;
@@ -118,41 +120,41 @@ angular.module('docs').controller('Document', function ($scope, $rootScope, $tim
   /**
    * Watch for display mode change.
    */
-  $scope.$watch('displayMode', function (next) {
+  $scope.$watch("displayMode", function(next) {
     localStorage.displayMode = next;
   });
 
   /**
    * Display a document.
    */
-  $scope.viewDocument = function (id) {
-    $state.go('document.view', { id: id });
+  $scope.viewDocument = function(id) {
+    $state.go("document.view", {id: id});
   };
 
   /**
    * Returns a promise for typeahead user.
    */
   $scope.getUserTypeahead = function($viewValue) {
-    var deferred = $q.defer();
-    Restangular.one('user/list')
-      .get({
-        search: $viewValue,
-        sort_column: 1,
-        asc: true
-      }).then(function(data) {
-      deferred.resolve(_.pluck(_.filter(data.users, function(user) {
-        return user.username.indexOf($viewValue) !== -1;
-      }), 'username'));
-    });
+    const deferred = $q.defer();
+    Restangular.one("user/list")
+        .get({
+          search: $viewValue,
+          sort_column: 1,
+          asc: true,
+        }).then(function(data) {
+          deferred.resolve(_.pluck(_.filter(data.users, function(user) {
+            return user.username.indexOf($viewValue) !== -1;
+          }), "username"));
+        });
     return deferred.promise;
   };
 
   /**
    * Hack to reload the pagination directive after language change.
    */
-  $rootScope.$on('$translateChangeSuccess', function () {
+  $rootScope.$on("$translateChangeSuccess", function() {
     $scope.paginationShown = false;
-    $timeout(function () {
+    $timeout(function() {
       $scope.paginationShown = true;
     });
   });
@@ -160,9 +162,9 @@ angular.module('docs').controller('Document', function ($scope, $rootScope, $tim
   /**
    * Open the advanced search panel.
    */
-  $scope.openSearch = function () {
-    var opened = $scope.searchOpened;
-    $timeout(function () {
+  $scope.openSearch = function() {
+    const opened = $scope.searchOpened;
+    $timeout(function() {
       $scope.searchOpened = !opened;
     });
   };
@@ -170,48 +172,48 @@ angular.module('docs').controller('Document', function ($scope, $rootScope, $tim
   /**
    * Start the advanced search.
    */
-  $scope.startSearch = function () {
-    var search = '';
+  $scope.startSearch = function() {
+    let search = "";
     if (!_.isEmpty($scope.advsearch.search_simple)) {
-      var simplesearch = _.map($scope.advsearch.search_simple.split(/\s+/), function (simple) {
-        return 'simple:' + simple
+      const simplesearch = _.map($scope.advsearch.search_simple.split(/\s+/), function(simple) {
+        return "simple:" + simple;
       });
-      search += simplesearch.join(' ') + ' ';
+      search += simplesearch.join(" ") + " ";
     }
     if (!_.isEmpty($scope.advsearch.search_fulltext)) {
-      var fulltext = _.map($scope.advsearch.search_fulltext.split(/\s+/), function (full) {
-        return 'full:' + full
+      const fulltext = _.map($scope.advsearch.search_fulltext.split(/\s+/), function(full) {
+        return "full:" + full;
       });
-      search += fulltext.join(' ') + ' ';
+      search += fulltext.join(" ") + " ";
     }
     if (!_.isEmpty($scope.advsearch.creator)) {
-      search += 'by:' + $scope.advsearch.creator + ' ';
+      search += "by:" + $scope.advsearch.creator + " ";
     }
     if (!_.isEmpty($scope.advsearch.language)) {
-      search += 'lang:' + $scope.advsearch.language + ' ';
+      search += "lang:" + $scope.advsearch.language + " ";
     }
     if (!_.isUndefined($scope.advsearch.after_date)) {
-      search += 'after:' + $filter('date')($scope.advsearch.after_date, 'yyyy-MM-dd') + ' ';
+      search += "after:" + $filter("date")($scope.advsearch.after_date, "yyyy-MM-dd") + " ";
     }
     if (!_.isUndefined($scope.advsearch.before_date)) {
-      search += 'before:' + $filter('date')($scope.advsearch.before_date, 'yyyy-MM-dd') + ' ';
+      search += "before:" + $filter("date")($scope.advsearch.before_date, "yyyy-MM-dd") + " ";
     }
     if (!_.isUndefined($scope.advsearch.after_update_date)) {
-      search += 'uafter:' + $filter('date')($scope.advsearch.after_update_date, 'yyyy-MM-dd') + ' ';
+      search += "uafter:" + $filter("date")($scope.advsearch.after_update_date, "yyyy-MM-dd") + " ";
     }
     if (!_.isUndefined($scope.advsearch.before_update_date)) {
-      search += 'ubefore:' + $filter('date')($scope.advsearch.before_update_date, 'yyyy-MM-dd') + ' ';
+      search += "ubefore:" + $filter("date")($scope.advsearch.before_update_date, "yyyy-MM-dd") + " ";
     }
     if (!_.isEmpty($scope.advsearch.tags)) {
       search += _.reduce($scope.advsearch.tags, function(s, t) {
-          return s + 'tag:' + t.name + ' ';
-        }, '');
+        return s + "tag:" + t.name + " ";
+      }, "");
     }
     if ($scope.advsearch.shared) {
-      search += 'shared:yes ';
+      search += "shared:yes ";
     }
     if ($scope.advsearch.workflow) {
-      search += 'workflow:me ';
+      search += "workflow:me ";
     }
     $scope.search = search;
     $scope.searchOpened = false;
@@ -220,26 +222,26 @@ angular.module('docs').controller('Document', function ($scope, $rootScope, $tim
   /**
    * Clear the search.
    */
-  $scope.clearSearch = function () {
+  $scope.clearSearch = function() {
     $scope.advsearch = {};
-    $scope.search = '';
+    $scope.search = "";
     $scope.searchOpened = false;
   };
 
   /**
    * Import an EML file.
    */
-  $scope.importEml = function (file) {
+  $scope.importEml = function(file) {
     // Open the import modal
     $uibModal.open({
-      templateUrl: 'partial/docs/import.html',
-      controller: 'ModalImport',
+      templateUrl: "partial/docs/import.html",
+      controller: "ModalImport",
       resolve: {
-        file: function () {
+        file: function() {
           return file;
-        }
-      }
-    }).result.then(function (data) {
+        },
+      },
+    }).result.then(function(data) {
       if (data === null) {
         return;
       }
@@ -251,15 +253,15 @@ angular.module('docs').controller('Document', function ($scope, $rootScope, $tim
 
   // Tag navigation
   $scope.tags = [];
-  $scope.navigatedFilter = { parent: '' };
+  $scope.navigatedFilter = {parent: ""};
   $scope.navigatedTag = undefined;
   $scope.navigationEnabled = _.isUndefined(localStorage.navigationEnabled) ?
-    true : localStorage.navigationEnabled === 'true';
+    true : localStorage.navigationEnabled === "true";
 
-  Restangular.one('tag/list').get().then(function (data) {
+  Restangular.one("tag/list").get().then(function(data) {
     $scope.tags = data.tags;
-    _.each($scope.tags, function (tag) {
-      tag.children = _.where($scope.tags, { parent: tag.id });
+    _.each($scope.tags, function(tag) {
+      tag.children = _.where($scope.tags, {parent: tag.id});
     });
     $scope.extractNavigatedTag();
   });
@@ -267,8 +269,8 @@ angular.module('docs').controller('Document', function ($scope, $rootScope, $tim
   /**
    * Comparator for the navigation tag filter.
    */
-  $scope.navigatedComparator = function (actual, expected) {
-    if (expected === '') {
+  $scope.navigatedComparator = function(actual, expected) {
+    if (expected === "") {
       return _.isUndefined(actual);
     }
     return angular.equals(actual, expected);
@@ -277,37 +279,37 @@ angular.module('docs').controller('Document', function ($scope, $rootScope, $tim
   /**
    * Navigate to a specific tag.
    */
-  $scope.navigateToTag = function (tag) {
+  $scope.navigateToTag = function(tag) {
     if (tag) {
-      $scope.search = 'tag:' + tag.name;
+      $scope.search = "tag:" + tag.name;
     } else {
-      $scope.search = '';
+      $scope.search = "";
     }
   };
 
   /**
    * Navigate one tag up.
    */
-  $scope.navigateUp = function () {
+  $scope.navigateUp = function() {
     if (!$scope.navigatedTag) {
       return;
     }
-    $scope.navigateToTag(_.findWhere($scope.tags, { id: $scope.navigatedTag.parent }));
+    $scope.navigateToTag(_.findWhere($scope.tags, {id: $scope.navigatedTag.parent}));
   };
 
   /**
    * Get the current navigation breadcrumb.
    */
-  $scope.getCurrentNavigation = function () {
+  $scope.getCurrentNavigation = function() {
     if (!$scope.navigatedTag) {
       return [];
     }
 
-    var nav = [];
+    const nav = [];
     nav.push($scope.navigatedTag);
-    var current = $scope.navigatedTag;
+    let current = $scope.navigatedTag;
     while (current.parent) {
-      current = _.findWhere($scope.tags, { id: current.parent });
+      current = _.findWhere($scope.tags, {id: current.parent});
       if (!current) {
         break;
       }
@@ -320,60 +322,60 @@ angular.module('docs').controller('Document', function ($scope, $rootScope, $tim
    * Extract the current navigated tag from the search query.
    * Called each time the search query changes.
    */
-  $scope.extractNavigatedTag = function () {
+  $scope.extractNavigatedTag = function() {
     // Find the current tag in the search query
-    var tagFound = /(^| )tag:([^ ]*)/.exec($scope.search);
+    let tagFound = /(^| )tag:([^ ]*)/.exec($scope.search);
     if (tagFound) {
       tagFound = tagFound[2];
       // We search only for exact match
-      $scope.navigatedTag = _.findWhere($scope.tags, { name: tagFound });
+      $scope.navigatedTag = _.findWhere($scope.tags, {name: tagFound});
     } else {
       $scope.navigatedTag = undefined;
     }
     if ($scope.navigatedTag) {
       $scope.navigatedFilter = {parent: $scope.navigatedTag.id};
     } else {
-      $scope.navigatedFilter = {parent: ''};
+      $scope.navigatedFilter = {parent: ""};
     }
   };
 
   /**
    * Toggle the navigation context.
    */
-  $scope.navigationToggle = function () {
+  $scope.navigationToggle = function() {
     $scope.navigationEnabled = !$scope.navigationEnabled;
     localStorage.navigationEnabled = $scope.navigationEnabled;
   };
 
-  $scope.getTagChildrenShort = function (tag) {
-    var children = tag.children;
+  $scope.getTagChildrenShort = function(tag) {
+    let children = tag.children;
     if (children.length > 2) {
       children = children.slice(0, 2);
     }
 
-    return _.pluck(children, 'name').join(', ') + (tag.children.length > 2 ? '...' : '');
+    return _.pluck(children, "name").join(", ") + (tag.children.length > 2 ? "..." : "");
   };
 
   /**
    * Add a tag in the current navigation context.
    */
-  $scope.addTagHere = function () {
+  $scope.addTagHere = function() {
     $uibModal.open({
-      templateUrl: 'partial/docs/document.add.tag.html',
-      controller: 'DocumentModalAddTag'
-    }).result.then(function (tag) {
+      templateUrl: "partial/docs/document.add.tag.html",
+      controller: "DocumentModalAddTag",
+    }).result.then(function(tag) {
       if (tag === null) {
         return;
       }
 
       // Create the tag
       tag.parent = $scope.navigatedTag ? $scope.navigatedTag.id : undefined;
-      Restangular.one('tag').put(tag).then(function (data) {
+      Restangular.one("tag").put(tag).then(function(data) {
         // Add the new tag to the list
         tag.id = data.id;
         tag.children = [];
         $scope.tags.push(tag);
-      })
+      });
     });
   };
 });

@@ -1,15 +1,15 @@
-'use strict';
+"use strict";
 
 /**
  * Tag controller.
  */
-angular.module('docs').controller('Tag', function($scope, Restangular) {
-  $scope.tag = { name: '', color: '#3a87ad' };
+angular.module("docs").controller("Tag", function($scope, Restangular) {
+  $scope.tag = {name: "", color: "#3a87ad"};
 
   // Retrieve tags
   $scope.tags = [];
   $scope.loadTags = function() {
-    Restangular.one('tag/list').get().then(function(data) {
+    Restangular.one("tag/list").get().then(function(data) {
       $scope.tags = data.tags;
     });
   };
@@ -19,9 +19,9 @@ angular.module('docs').controller('Tag', function($scope, Restangular) {
    * Add a tag.
    */
   $scope.addTag = function() {
-    Restangular.one('tag').put($scope.tag).then(function(data) {
-      $scope.tags.push({ id: data.id, name: $scope.tag.name, color: $scope.tag.color });
-      $scope.tag = { name: '', color: '#3a87ad' };
+    Restangular.one("tag").put($scope.tag).then(function(data) {
+      $scope.tags.push({id: data.id, name: $scope.tag.name, color: $scope.tag.color});
+      $scope.tag = {name: "", color: "#3a87ad"};
     });
   };
 

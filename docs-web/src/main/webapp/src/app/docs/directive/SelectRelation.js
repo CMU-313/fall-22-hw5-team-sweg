@@ -1,18 +1,18 @@
-'use strict';
+"use strict";
 
 /**
  * Relation selection directive.
  */
-angular.module('docs').directive('selectRelation', function() {
+angular.module("docs").directive("selectRelation", function() {
   return {
-    restrict: 'E',
-    templateUrl: 'partial/docs/directive.selectrelation.html',
+    restrict: "E",
+    templateUrl: "partial/docs/directive.selectrelation.html",
     replace: true,
     scope: {
-      id: '=',
-      relations: '=',
-      ref: '@',
-      ngDisabled: '='
+      id: "=",
+      relations: "=",
+      ref: "@",
+      ngDisabled: "=",
     },
     controller: function($scope, $q, Restangular) {
       /**
@@ -23,11 +23,11 @@ angular.module('docs').directive('selectRelation', function() {
         $scope.relations.push({
           id: $item.id,
           title: $item.title,
-          source: true
+          source: true,
         });
-        $scope.input = '';
+        $scope.input = "";
       };
-      
+
       /**
        * Remove a relation.
        */
@@ -41,16 +41,16 @@ angular.module('docs').directive('selectRelation', function() {
        * Returns a promise for typeahead document.
        */
       $scope.getDocumentTypeahead = function($viewValue) {
-        var deferred = $q.defer();
-        Restangular.one('document/list')
+        const deferred = $q.defer();
+        Restangular.one("document/list")
             .get({
               limit: 5,
               sort_column: 1,
               asc: true,
-              search: $viewValue
+              search: $viewValue,
             }).then(function(data) {
               deferred.resolve(_.reject(data.documents, function(document) {
-                var duplicate = _.find($scope.relations, function(relation) {
+                const duplicate = _.find($scope.relations, function(relation) {
                   if (document.id === relation.id) {
                     return relation;
                   }
@@ -63,6 +63,6 @@ angular.module('docs').directive('selectRelation', function() {
       };
     },
     link: function(scope, element, attr, ctrl) {
-    }
-  }
+    },
+  };
 });
