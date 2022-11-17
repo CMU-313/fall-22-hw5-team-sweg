@@ -4527,8 +4527,7 @@
   /** @module common */ /** for typedoc */ /**
    * @coreapi
    * @module params
-   */ /** */
-  /**
+   */ /** */ /**
    * A registry for parameter types.
    *
    * This registry manages the built-in (and custom) parameter types.
@@ -9222,8 +9221,7 @@
    */ /** for typedoc */ /**
    * @internalapi
    * @module vanilla
-   */ /** */
-  /**
+   */ /** */ /**
    * An angular1-like promise api
    *
    * This object implements four methods similar to the
