@@ -35,7 +35,9 @@ Example usage:
 ```
 docker run --name teedy-import -d -v /path/to/preferencefile:/root/.config/preferences/com.sismics.docs.importer.pref -v /path/to/import/folder:/import sismics/docs-importer:latest
 ```
+
 ### Environment variables
+
 Instead of mounting the preferences file, the options can also be set by setting the environment variables `TEEDY_TAG`, `TEEDY_ADDTAGS`, `TEEDY_LANG`, `TEEDY_COPYFOLDER`, `TEEDY_FILEFILTER`, `TEEDY_URL`, `TEEDY_USERNAME` and `TEEDY_PASSWORD`.
 The latter three have to be set for the importer to work. The value of `TEEDY_TAG` has to be set to the UUID of the tag, not the name (The UUID can be found by visiting `baseUrl/api/tag/list` in your browser).
 Example usage:

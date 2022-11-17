@@ -4527,8 +4527,7 @@
   /** @module common */ /** for typedoc */ /**
    * @coreapi
    * @module params
-   */
-  /** */
+   */ /** */
   /**
    * A registry for parameter types.
    *
@@ -9223,8 +9222,7 @@
    */ /** for typedoc */ /**
    * @internalapi
    * @module vanilla
-   */
-  /** */
+   */ /** */
   /**
    * An angular1-like promise api
    *
@@ -11209,8 +11207,7 @@
    * angular.service('SomeService', SomeService);
    * ```
    * @deprecated
-   */
-  /**
+   */ /**
    * # Angular 1 Directives
    *
    * These are the directives included in UI-Router for Angular 1.
