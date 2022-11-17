@@ -6,13 +6,23 @@
     {{ 'settings.security.disable_totp.message' | translate }}
   </p>
   <p>
-    <label for="password">{{ 'settings.security.disable_totp.confirm_password' | translate }}</label>
-    <input class="form-control" type="password" id="password" ng-model="password" />
+    <label for="password"
+      >{{ 'settings.security.disable_totp.confirm_password' | translate
+      }}</label
+    >
+    <input
+      class="form-control"
+      type="password"
+      id="password"
+      ng-model="password"
+    />
   </p>
 </div>
 <div class="modal-footer">
   <button ng-click="close(password)" class="btn btn-warning">
     {{ 'settings.security.disable_totp.submit' | translate }}
   </button>
-  <button ng-click="close(null)" class="btn btn-default">{{ 'cancel' | translate }}</button>
+  <button ng-click="close(null)" class="btn btn-default">
+    {{ 'cancel' | translate }}
+  </button>
 </div>

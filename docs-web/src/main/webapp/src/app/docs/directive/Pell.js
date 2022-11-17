@@ -1,28 +1,28 @@
-'use strict';
+"use strict";
 
 /**
  * Pell directive.
  */
-angular.module('docs').directive('pellEditor', function ($timeout) {
+angular.module("docs").directive("pellEditor", function ($timeout) {
   return {
-    restrict: 'E',
+    restrict: "E",
     template: '<div class="pell"></div>',
-    require: 'ngModel',
+    require: "ngModel",
     replace: true,
     link: function (scope, element, attrs, ngModelCtrl) {
-      var editor = pell.init({
+      const editor = pell.init({
         element: element[0],
-        defaultParagraphSeparator: 'p',
+        defaultParagraphSeparator: "p",
         onChange: function (html) {
           $timeout(function () {
             ngModelCtrl.$setViewValue(html);
           });
-        }
+        },
       });
 
-      ngModelCtrl.$render = function() {
-        editor.content.innerHTML = ngModelCtrl.$viewValue || '';
+      ngModelCtrl.$render = function () {
+        editor.content.innerHTML = ngModelCtrl.$viewValue || "";
       };
-    }
+    },
   };
 });

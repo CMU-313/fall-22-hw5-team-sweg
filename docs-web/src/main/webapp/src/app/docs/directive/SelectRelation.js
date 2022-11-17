@@ -1,38 +1,38 @@
-'use strict';
+"use strict";
 
 /**
  * Relation selection directive.
  */
-angular.module('docs').directive('selectRelation', function() {
+angular.module("docs").directive("selectRelation", function () {
   return {
-    restrict: 'E',
-    templateUrl: 'partial/docs/directive.selectrelation.html',
+    restrict: "E",
+    templateUrl: "partial/docs/directive.selectrelation.html",
     replace: true,
     scope: {
-      id: '=',
-      relations: '=',
-      ref: '@',
-      ngDisabled: '='
+      id: "=",
+      relations: "=",
+      ref: "@",
+      ngDisabled: "=",
     },
-    controller: function($scope, $q, Restangular) {
+    controller: function ($scope, $q, Restangular) {
       /**
        * Add a relation.
        */
-      $scope.addRelation = function($item) {
+      $scope.addRelation = function ($item) {
         // Add the new relation
         $scope.relations.push({
           id: $item.id,
           title: $item.title,
-          source: true
+          source: true,
         });
-        $scope.input = '';
+        $scope.input = "";
       };
-      
+
       /**
        * Remove a relation.
        */
-      $scope.deleteRelation = function(deleteRelation) {
-        $scope.relations = _.reject($scope.relations, function(relation) {
+      $scope.deleteRelation = function (deleteRelation) {
+        $scope.relations = _.reject($scope.relations, function (relation) {
           return relation.id === deleteRelation.id;
         });
       };
@@ -40,29 +40,31 @@ angular.module('docs').directive('selectRelation', function() {
       /**
        * Returns a promise for typeahead document.
        */
-      $scope.getDocumentTypeahead = function($viewValue) {
-        var deferred = $q.defer();
-        Restangular.one('document/list')
-            .get({
-              limit: 5,
-              sort_column: 1,
-              asc: true,
-              search: $viewValue
-            }).then(function(data) {
-              deferred.resolve(_.reject(data.documents, function(document) {
-                var duplicate = _.find($scope.relations, function(relation) {
+      $scope.getDocumentTypeahead = function ($viewValue) {
+        const deferred = $q.defer();
+        Restangular.one("document/list")
+          .get({
+            limit: 5,
+            sort_column: 1,
+            asc: true,
+            search: $viewValue,
+          })
+          .then(function (data) {
+            deferred.resolve(
+              _.reject(data.documents, function (document) {
+                const duplicate = _.find($scope.relations, function (relation) {
                   if (document.id === relation.id) {
                     return relation;
                   }
                 });
 
                 return document.id === $scope.id || duplicate;
-              }));
-            });
+              })
+            );
+          });
         return deferred.promise;
       };
     },
-    link: function(scope, element, attr, ctrl) {
-    }
-  }
+    link: function (scope, element, attr, ctrl) {},
+  };
 });

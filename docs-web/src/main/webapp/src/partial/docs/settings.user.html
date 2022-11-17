@@ -1,6 +1,8 @@
 <h1>
   <span translate="settings.user.title"></span>
-  <a class="btn btn-primary" href="#/settings/user/add">{{ 'settings.user.add_user' | translate }}</a>
+  <a class="btn btn-primary" href="#/settings/user/add"
+    >{{ 'settings.user.add_user' | translate }}</a
+  >
 </h1>
 
 <div class="row">
@@ -13,12 +15,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="user in users | orderBy: 'username'" ng-click="editUser(user)"
-            ng-class="{ active: $stateParams.username == user.username }">
+        <tr
+          ng-repeat="user in users | orderBy: 'username'"
+          ng-click="editUser(user)"
+          ng-class="{ active: $stateParams.username == user.username }"
+        >
           <td>
             <span ng-if="!user.disabled">{{ user.username }}</span>
             <s ng-if="user.disabled">{{ user.username }}</s>
-            <span class="fas fa-lock" ng-show="user.totp_enabled" uib-tooltip="{{ 'settings.user.totp_enabled' | translate }}"></span>
+            <span
+              class="fas fa-lock"
+              ng-show="user.totp_enabled"
+              uib-tooltip="{{ 'settings.user.totp_enabled' | translate }}"
+            ></span>
           </td>
           <td>{{ user.create_date | date: dateFormat }}</td>
         </tr>

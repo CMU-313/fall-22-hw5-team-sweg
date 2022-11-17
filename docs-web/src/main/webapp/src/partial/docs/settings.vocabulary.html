@@ -3,11 +3,24 @@
 <div class="row">
   <form class="form-inline">
     <div class="form-group">
-      <label for="inputVocabulary">{{ 'settings.vocabulary.choose_vocabulary' | translate }}</label>
-      <select class="form-control" id="inputVocabulary" ng-model="vocabulary" ng-init="vocabulary = 'type'">
-        <option value="type">{{ 'settings.vocabulary.type' | translate }}</option>
-        <option value="coverage">{{ 'settings.vocabulary.coverage' | translate }}</option>
-        <option value="rights">{{ 'settings.vocabulary.rights' | translate }}</option>
+      <label for="inputVocabulary"
+        >{{ 'settings.vocabulary.choose_vocabulary' | translate }}</label
+      >
+      <select
+        class="form-control"
+        id="inputVocabulary"
+        ng-model="vocabulary"
+        ng-init="vocabulary = 'type'"
+      >
+        <option value="type">
+          {{ 'settings.vocabulary.type' | translate }}
+        </option>
+        <option value="coverage">
+          {{ 'settings.vocabulary.coverage' | translate }}
+        </option>
+        <option value="rights">
+          {{ 'settings.vocabulary.rights' | translate }}
+        </option>
       </select>
     </div>
   </form>
@@ -26,7 +39,13 @@
       <tbody>
         <tr class="info">
           <td>
-            <input type="text" ng-attr-placeholder="{{ 'settings.vocabulary.new_entry' | translate }}" class="form-control" ng-model="entry.value" maxlength="500" />
+            <input
+              type="text"
+              ng-attr-placeholder="{{ 'settings.vocabulary.new_entry' | translate }}"
+              class="form-control"
+              ng-model="entry.value"
+              maxlength="500"
+            />
           </td>
           <td>
             <input type="number" class="form-control" ng-model="entry.order" />
@@ -40,13 +59,27 @@
         </tr>
         <tr ng-repeat="entry in entries | orderBy: 'order'">
           <td>
-            <input type="text" class="form-control" ng-model="entry.value" maxlength="500" ng-blur="updateEntry(entry)" />
+            <input
+              type="text"
+              class="form-control"
+              ng-model="entry.value"
+              maxlength="500"
+              ng-blur="updateEntry(entry)"
+            />
           </td>
           <td>
-            <input type="number" class="form-control" ng-model="entry.order" ng-blur="updateEntry(entry)" />
+            <input
+              type="number"
+              class="form-control"
+              ng-model="entry.order"
+              ng-blur="updateEntry(entry)"
+            />
           </td>
           <td>
-            <span ng-click="deleteEntry(entry)" class="fas fa-trash pointer"></span>
+            <span
+              ng-click="deleteEntry(entry)"
+              class="fas fa-trash pointer"
+            ></span>
           </td>
         </tr>
       </tbody>
