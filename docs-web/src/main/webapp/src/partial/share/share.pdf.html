@@ -7,7 +7,8 @@
       <div class="col-sm-offset-2 col-sm-10">
         <div class="checkbox">
           <label>
-            <input type="checkbox" ng-model="export.metadata" /> {{ 'document.pdf.export_metadata' | translate }}
+            <input type="checkbox" ng-model="export.metadata" /> {{
+            'document.pdf.export_metadata' | translate }}
           </label>
         </div>
       </div>
@@ -16,7 +17,8 @@
       <div class="col-sm-offset-2 col-sm-10">
         <div class="checkbox">
           <label>
-            <input type="checkbox" ng-model="export.comments" /> {{ 'document.pdf.export_comments' | translate }}
+            <input type="checkbox" ng-model="export.comments" /> {{
+            'document.pdf.export_comments' | translate }}
           </label>
         </div>
       </div>
@@ -25,15 +27,28 @@
       <div class="col-sm-offset-2 col-sm-10">
         <div class="checkbox">
           <label>
-            <input type="checkbox" ng-model="export.fitimagetopage" /> {{ 'document.pdf.fit_to_page' | translate }}
+            <input type="checkbox" ng-model="export.fitimagetopage" /> {{
+            'document.pdf.fit_to_page' | translate }}
           </label>
         </div>
       </div>
     </div>
-    <label for="inputMargin" class="col-sm-2 control-label">{{ 'document.pdf.margin' | translate }}</label>
+    <label for="inputMargin" class="col-sm-2 control-label"
+      >{{ 'document.pdf.margin' | translate }}</label
+    >
     <div class="input-group col-sm-5">
-      <input type="number" class="form-control" id="inputMargin" ng-model="export.margin" min="0" max="100" step="1">
-      <div class="input-group-addon">{{ 'document.pdf.millimeter' | translate }}</div>
+      <input
+        type="number"
+        class="form-control"
+        id="inputMargin"
+        ng-model="export.margin"
+        min="0"
+        max="100"
+        step="1"
+      />
+      <div class="input-group-addon">
+        {{ 'document.pdf.millimeter' | translate }}
+      </div>
     </div>
   </form>
 </div>
@@ -41,5 +56,7 @@
   <button ng-click="exportPdf()" class="btn btn-primary">
     <span class="fas fa-file-pdf"></span> {{ 'export' | translate }}
   </button>
-  <button ng-click="close()" class="btn btn-default">{{ 'cancel' | translate }}</button>
+  <button ng-click="close()" class="btn btn-default">
+    {{ 'cancel' | translate }}
+  </button>
 </div>

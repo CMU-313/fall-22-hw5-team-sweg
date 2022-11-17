@@ -1,22 +1,31 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
     clean: {
       init: ["dist"],
-      after: ["dist/style.css", "dist/docs.js", "dist/share.js", "dist/less.css", "dist/app", "dist/partial"],
+      after: [
+        "dist/style.css",
+        "dist/docs.js",
+        "dist/share.js",
+        "dist/less.css",
+        "dist/app",
+        "dist/partial",
+      ],
     },
     ngAnnotate: {
       options: {
         singleQuotes: true,
       },
       dist: {
-        files: [{
-          expand: true,
-          cwd: "src",
-          src: ["app/**/*.js"],
-          dest: "dist",
-        }],
+        files: [
+          {
+            expand: true,
+            cwd: "src",
+            src: ["app/**/*.js"],
+            dest: "dist",
+          },
+        ],
       },
     },
     concat: {
@@ -24,16 +33,40 @@ module.exports = function(grunt) {
         options: {
           separator: ";",
         },
-        src: ["src/lib/jquery.js", "src/lib/jquery.ui.js", "src/lib/underscore.js", "src/lib/colorpicker.js", "src/lib/pell.js", "src/lib/angular.js", "src/lib/angular.*.js",
-          "dist/app/docs/app.js", "dist/app/docs/controller/**/*.js", "dist/app/docs/directive/*.js", "dist/app/docs/filter/*.js", "dist/app/docs/service/*.js"],
+        src: [
+          "src/lib/jquery.js",
+          "src/lib/jquery.ui.js",
+          "src/lib/underscore.js",
+          "src/lib/colorpicker.js",
+          "src/lib/pell.js",
+          "src/lib/angular.js",
+          "src/lib/angular.*.js",
+          "dist/app/docs/app.js",
+          "dist/app/docs/controller/**/*.js",
+          "dist/app/docs/directive/*.js",
+          "dist/app/docs/filter/*.js",
+          "dist/app/docs/service/*.js",
+        ],
         dest: "dist/docs.js",
       },
       share: {
         options: {
           separator: ";",
         },
-        src: ["src/lib/jquery.js", "src/lib/jquery.ui.js", "src/lib/underscore.js", "src/lib/colorpicker.js", "src/lib/pell.js", "src/lib/angular.js", "src/lib/angular.*.js",
-          "dist/app/share/app.js", "dist/app/share/controller/*.js", "dist/app/share/directive/*.js", "dist/app/share/filter/*.js", "dist/app/share/service/*.js"],
+        src: [
+          "src/lib/jquery.js",
+          "src/lib/jquery.ui.js",
+          "src/lib/underscore.js",
+          "src/lib/colorpicker.js",
+          "src/lib/pell.js",
+          "src/lib/angular.js",
+          "src/lib/angular.*.js",
+          "dist/app/share/app.js",
+          "dist/app/share/controller/*.js",
+          "dist/app/share/directive/*.js",
+          "dist/app/share/filter/*.js",
+          "dist/app/share/service/*.js",
+        ],
         dest: "dist/share.js",
       },
       css: {
@@ -105,7 +138,14 @@ module.exports = function(grunt) {
       dist: {
         expand: true,
         cwd: "src/",
-        src: ["**", "!**/*.js", "!*.html", "!**/*.less", "!**/*.css", "locale/**"],
+        src: [
+          "**",
+          "!**/*.js",
+          "!*.html",
+          "!**/*.less",
+          "!**/*.css",
+          "locale/**",
+        ],
         dest: "dist/",
       },
     },
@@ -128,15 +168,23 @@ module.exports = function(grunt) {
     },
     replace: {
       dist: {
-        src: ["dist/docs.min.js", "dist/share.min.js", "dist/**/*.html", "dist/style/style.min.css"],
+        src: [
+          "dist/docs.min.js",
+          "dist/share.min.js",
+          "dist/**/*.html",
+          "dist/style/style.min.css",
+        ],
         overwrite: true,
-        replacements: [{
-          from: "../api",
-          to: grunt.option("apiurl") || "../api",
-        }, {
-          from: "@build.date@",
-          to: new Date().getTime(),
-        }],
+        replacements: [
+          {
+            from: "../api",
+            to: grunt.option("apiurl") || "../api",
+          },
+          {
+            from: "@build.date@",
+            to: new Date().getTime(),
+          },
+        ],
       },
     },
     apidoc: {
@@ -161,7 +209,24 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-angular-templates");
 
   // Default tasks.
-  grunt.registerTask("default", ["clean:init", "ngAnnotate", "concat:docs", "concat:share", "less", "concat:css",
-    "cssmin", "uglify:docs", "uglify:share", "ngtemplates:docs", "ngtemplates:share", "copy", "clean:after",
-    "cleanempty", "htmlrefs:index", "htmlrefs:share", "replace", "apidoc"]);
+  grunt.registerTask("default", [
+    "clean:init",
+    "ngAnnotate",
+    "concat:docs",
+    "concat:share",
+    "less",
+    "concat:css",
+    "cssmin",
+    "uglify:docs",
+    "uglify:share",
+    "ngtemplates:docs",
+    "ngtemplates:share",
+    "copy",
+    "clean:after",
+    "cleanempty",
+    "htmlrefs:index",
+    "htmlrefs:share",
+    "replace",
+    "apidoc",
+  ]);
 };

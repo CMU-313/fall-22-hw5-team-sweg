@@ -1,6 +1,8 @@
 <h1>
   <span translate="settings.group.title"></span>
-  <a class="btn btn-primary" href="#/settings/group/add">{{ 'settings.group.add_group' | translate }}</a>
+  <a class="btn btn-primary" href="#/settings/group/add"
+    >{{ 'settings.group.add_group' | translate }}</a
+  >
 </h1>
 
 <div class="row">
@@ -12,8 +14,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="group in groups | orderBy: 'name'" ng-click="editGroup(group)"
-            ng-class="{ active: $stateParams.name == group.name }">
+        <tr
+          ng-repeat="group in groups | orderBy: 'name'"
+          ng-click="editGroup(group)"
+          ng-class="{ active: $stateParams.name == group.name }"
+        >
           <td>{{ group.name }}</td>
         </tr>
       </tbody>

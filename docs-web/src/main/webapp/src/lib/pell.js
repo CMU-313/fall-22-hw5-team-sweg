@@ -1,19 +1,25 @@
-(function(global, factory) {
-	typeof exports === "object" && typeof module !== "undefined" ? factory(exports) :
-	typeof define === "function" && define.amd ? define(["exports"], factory) :
-	(factory((global.pell = {})));
-}(this, (function(exports) {
+(function (global, factory) {
+  typeof exports === "object" && typeof module !== "undefined"
+    ? factory(exports)
+    : typeof define === "function" && define.amd
+    ? define(["exports"], factory)
+    : factory((global.pell = {}));
+})(this, function (exports) {
   "use strict";
 
-  const _extends = Object.assign || function(target) {
-    for (let i = 1; i < arguments.length; i++) {
-      const source = arguments[i]; for (const key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
+  const _extends =
+    Object.assign ||
+    function (target) {
+      for (let i = 1; i < arguments.length; i++) {
+        const source = arguments[i];
+        for (const key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
         }
       }
-    } return target;
-  };
+      return target;
+    };
 
   const defaultParagraphSeparatorString = "defaultParagraphSeparator";
   const formatBlock = "formatBlock";
@@ -34,7 +40,8 @@
   };
 
   const exec = function exec(command) {
-    const value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    const value =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     return document.execCommand(command, false, value);
   };
 
@@ -161,54 +168,66 @@
   };
 
   const init = function init(settings) {
-    const actions = settings.actions ? settings.actions.map(function(action) {
-      if (typeof action === "string") return defaultActions[action]; else if (defaultActions[action.name]) return _extends({}, defaultActions[action.name], action);
-      return action;
-    }) : Object.keys(defaultActions).map(function(action) {
-      return defaultActions[action];
-    });
+    const actions = settings.actions
+      ? settings.actions.map(function (action) {
+          if (typeof action === "string") return defaultActions[action];
+          else if (defaultActions[action.name])
+            return _extends({}, defaultActions[action.name], action);
+          return action;
+        })
+      : Object.keys(defaultActions).map(function (action) {
+          return defaultActions[action];
+        });
 
     const classes = _extends({}, defaultClasses, settings.classes);
 
-    const defaultParagraphSeparator = settings[defaultParagraphSeparatorString] || "div";
+    const defaultParagraphSeparator =
+      settings[defaultParagraphSeparatorString] || "div";
 
     const actionbar = createElement("div");
     actionbar.className = classes.actionbar;
     appendChild(settings.element, actionbar);
 
-    const content = settings.element.content = createElement("div");
+    const content = (settings.element.content = createElement("div"));
     content.contentEditable = true;
     content.className = classes.content;
-    content.oninput = function(_ref) {
+    content.oninput = function (_ref) {
       const firstChild = _ref.target.firstChild;
 
-      if (firstChild && firstChild.nodeType === 3) exec(formatBlock, "<" + defaultParagraphSeparator + ">"); else if (content.innerHTML === "<br>") content.innerHTML = "";
+      if (firstChild && firstChild.nodeType === 3)
+        exec(formatBlock, "<" + defaultParagraphSeparator + ">");
+      else if (content.innerHTML === "<br>") content.innerHTML = "";
       settings.onChange(content.innerHTML);
     };
-    content.onkeydown = function(event) {
+    content.onkeydown = function (event) {
       if (event.key === "Tab") {
         event.preventDefault();
-      } else if (event.key === "Enter" && queryCommandValue(formatBlock) === "blockquote") {
-        setTimeout(function() {
+      } else if (
+        event.key === "Enter" &&
+        queryCommandValue(formatBlock) === "blockquote"
+      ) {
+        setTimeout(function () {
           return exec(formatBlock, "<" + defaultParagraphSeparator + ">");
         }, 0);
       }
     };
     appendChild(settings.element, content);
 
-    actions.forEach(function(action) {
+    actions.forEach(function (action) {
       const button = createElement("button");
       button.className = classes.button;
       button.innerHTML = action.icon;
       button.title = action.title;
       button.setAttribute("type", "button");
-      button.onclick = function() {
+      button.onclick = function () {
         return action.result() && content.focus();
       };
 
       if (action.state) {
         const handler = function handler() {
-          return button.classList[action.state() ? "add" : "remove"](classes.selected);
+          return button.classList[action.state() ? "add" : "remove"](
+            classes.selected
+          );
         };
         addEventListener(content, "keyup", handler);
         addEventListener(content, "mouseup", handler);
@@ -224,11 +243,11 @@
     return settings.element;
   };
 
-  const pell = {exec: exec, init: init};
+  const pell = { exec: exec, init: init };
 
   exports.exec = exec;
   exports.init = init;
   exports["default"] = pell;
 
-  Object.defineProperty(exports, "__esModule", {value: true});
-})));
+  Object.defineProperty(exports, "__esModule", { value: true });
+});

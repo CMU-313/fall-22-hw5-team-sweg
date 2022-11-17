@@ -10,7 +10,9 @@
           </button>
           <ul class="dropdown-menu">
             <li>
-              <a ng-href="../api/file/zip?id={{ document.id }}&share={{ $stateParams.shareId }}">
+              <a
+                ng-href="../api/file/zip?id={{ document.id }}&share={{ $stateParams.shareId }}"
+              >
                 <span class="fas fa-download"></span>
                 {{ 'document.view.download_files' | translate }}
               </a>
@@ -27,10 +29,17 @@
 
       <div class="page-header">
         <h1>
-          {{ document.title }} <small>{{ document.create_date | date: 'yyyy-MM-dd' }}</small>
+          {{ document.title }}
+          <small>{{ document.create_date | date: 'yyyy-MM-dd' }}</small>
         </h1>
         <ul class="list-inline">
-          <li ng-repeat="tag in document.tags"><span class="label label-info" ng-style="{ 'background': tag.color }">{{ tag.name }}</span></li>
+          <li ng-repeat="tag in document.tags">
+            <span
+              class="label label-info"
+              ng-style="{ 'background': tag.color }"
+              >{{ tag.name }}</span
+            >
+          </li>
         </ul>
       </div>
     </div>
@@ -39,7 +48,9 @@
     <dl class="dl-horizontal">
       <dt ng-if="document.subject">{{ 'document.subject' | translate }}</dt>
       <dd ng-if="document.subject">{{ document.subject }}</dd>
-      <dt ng-if="document.identifier">{{ 'document.identifier' | translate }}</dt>
+      <dt ng-if="document.identifier">
+        {{ 'document.identifier' | translate }}
+      </dt>
       <dd ng-if="document.identifier">{{ document.identifier }}</dd>
       <dt ng-if="document.publisher">{{ 'document.publisher' | translate }}</dt>
       <dd ng-if="document.publisher">{{ document.publisher }}</dd>
@@ -66,15 +77,21 @@
     </dl>
 
     <div class="row" ng-show="files.length > 0">
-      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 text-center" ng-repeat="file in files">
+      <div
+        class="col-xs-6 col-sm-4 col-md-3 col-lg-2 text-center"
+        ng-repeat="file in files"
+      >
         <div class="thumbnail">
           <a ng-click="openFile(file)">
-            <img ng-src="../api/file/{{ file.id }}/data?size=thumb&share={{ $stateParams.shareId }}"
-                 uib-tooltip="{{ file.mimetype }} | {{ file.size | filesize }}" tooltip-placement="top" />
+            <img
+              ng-src="../api/file/{{ file.id }}/data?size=thumb&share={{ $stateParams.shareId }}"
+              uib-tooltip="{{ file.mimetype }} | {{ file.size | filesize }}"
+              tooltip-placement="top"
+            />
           </a>
         </div>
       </div>
-     </div>
+    </div>
 
     <div ui-view="file"></div>
   </div>
@@ -85,22 +102,34 @@
       {{ 'document.view.comments' | translate }}
     </p>
 
-    <div ng-show="!comments || comments.length == 0" class="text-center text-muted">
+    <div
+      ng-show="!comments || comments.length == 0"
+      class="text-center text-muted"
+    >
       <h1 class="fas fa-comments"></h1>
       <p ng-show="!comments && !commentsError">{{ 'loading' | translate }}</p>
-      <p ng-show="comments.length == 0">{{ 'document.view.no_comments' | translate }}</p>
-      <p ng-show="!comments && commentsError">{{ 'document.view.error_loading_comments' | translate }}</p>
+      <p ng-show="comments.length == 0">
+        {{ 'document.view.no_comments' | translate }}
+      </p>
+      <p ng-show="!comments && commentsError">
+        {{ 'document.view.error_loading_comments' | translate }}
+      </p>
     </div>
 
     <div ng-repeat="comment in comments" class="media" style="overflow: hidden">
       <div class="pull-left">
-        <img ng-src="https://www.gravatar.com/avatar/{{ comment.creator_gravatar }}?s=40&d=identicon" class="media-object" />
+        <img
+          ng-src="https://www.gravatar.com/avatar/{{ comment.creator_gravatar }}?s=40&d=identicon"
+          class="media-object"
+        />
       </div>
       <div class="media-body">
         <strong>{{ comment.creator }}</strong>
         <p>
           {{ comment.content }}<br />
-          <span class="text-muted">{{ comment.create_date | date: 'yyyy-MM-dd' }}</span>
+          <span class="text-muted"
+            >{{ comment.create_date | date: 'yyyy-MM-dd' }}</span
+          >
         </p>
       </div>
     </div>

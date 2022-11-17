@@ -3,14 +3,15 @@
 /**
  * Format file sizes.
  */
-angular.module("share").filter("filesize", function() {
-  return function(text) {
+angular.module("share").filter("filesize", function () {
+  return function (text) {
     if (!text) {
       return "";
     }
 
     const size = parseInt(text);
-    if (size > 1000000) { // 1MB
+    if (size > 1000000) {
+      // 1MB
       return Math.round(size / 1000000) + "MB";
     }
     return Math.round(size / 1000) + "kB";
