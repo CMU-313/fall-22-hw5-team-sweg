@@ -34,7 +34,7 @@ var qrcode = (function () {
     let _modules = null;
     let _moduleCount = 0;
     let _dataCache = null;
-    const _dataList = new Array();
+    const _dataList = [];
 
     const _this = {};
 
