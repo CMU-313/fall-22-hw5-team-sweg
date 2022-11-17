@@ -1,0 +1,26 @@
+name: Prettier / ESLint CI
+on:
+  pull_request:
+    branches:
+      - main
+    tags: [ v* ]
+jobs:
+  format-lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Prettier
+        uses: creyD/prettier_action@v4.2
+        with:
+          prettier_options: --write **/*.{js,md}
+      - name: Run ESLint
+        uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          level: error
+          reporter: github-pr-review
+          eslint_flags: ./src
+          workdir: ./docs-web/src/main/webapp
