@@ -4543,8 +4543,7 @@
    * - [[date]]
    * - [[json]]
    * - [[any]]
-   */
-  const ParamTypes = /** @class */ (function () {
+   */ const ParamTypes = /** @class */ (function () {
     /** @internalapi */
     function ParamTypes() {
       /** @hidden */
@@ -9235,8 +9234,7 @@
    * The `angular-ui-router` (ui-router for angular 1) uses the $q API provided by angular.
    *
    * $q-like promise api
-   */
-  var $q = {
+   */ var $q = {
     /** Normalizes a value as a promise */
     when: function (val) {
       return new Promise(function (resolve, reject) {
